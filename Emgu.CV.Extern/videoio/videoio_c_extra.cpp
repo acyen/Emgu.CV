@@ -45,9 +45,9 @@ cv::VideoCapture* cveVideoCaptureCreateFromDevice(int device)
    return new cv::VideoCapture(device);
 }
 
-cv::VideoCapture* cveVideoCaptureCreateFromFile(cv::String* fileName)
+cv::VideoCapture* cveVideoCaptureCreateFromFile(cv::String* fileName, int capType)
 {
-   return new cv::VideoCapture(*fileName);
+   return new cv::VideoCapture(*fileName, capType);
 }
 
 void cveVideoCaptureRelease(cv::VideoCapture** capture)

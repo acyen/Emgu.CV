@@ -33,7 +33,7 @@ CVAPI(void) OpenniGetColorPoints(
                                  );
 
 CVAPI(cv::VideoCapture*) cveVideoCaptureCreateFromDevice(int device);
-CVAPI(cv::VideoCapture*) cveVideoCaptureCreateFromFile(cv::String* fileName);
+CVAPI(cv::VideoCapture*) cveVideoCaptureCreateFromFile(cv::String* fileName, int capType);
 CVAPI(void) cveVideoCaptureRelease(cv::VideoCapture** capture);
 CVAPI(bool) cveVideoCaptureSet(cv::VideoCapture* capture, int propId, double value);
 CVAPI(double) cveVideoCaptureGet(cv::VideoCapture* capture, int propId);

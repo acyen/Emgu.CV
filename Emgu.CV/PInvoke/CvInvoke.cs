@@ -43,7 +43,7 @@ namespace Emgu.CV
       /// <summary>
       /// Represent a int value in C++
       /// </summary>
-      public const UnmanagedType BoolToIntMarshalType = UnmanagedType.Bool;
+      public const UnmanagedType BoolToIntMarshalType = UnmanagedType.I1;
 
       /// <summary>
       /// Opencv's calling convention

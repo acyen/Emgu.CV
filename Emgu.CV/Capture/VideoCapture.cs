@@ -178,7 +178,7 @@ namespace Emgu.CV
       /// Create a capture from file or a video stream
       /// </summary>
       /// <param name="fileName">The name of a file, or an url pointed to a stream.</param>
-      public VideoCapture(String fileName)
+      public VideoCapture(String fileName, CvEnum.CaptureType capType = CvEnum.CaptureType.Any)
       {
          using (CvString s = new CvString(fileName))
          {
@@ -191,7 +191,7 @@ namespace Emgu.CV
             else*/
             {
                _captureModuleType = CaptureModuleType.Highgui;
-               _ptr = CvInvoke.cveVideoCaptureCreateFromFile(s);
+               _ptr = CvInvoke.cveVideoCaptureCreateFromFile(s, (int)capType);
             }
 
             if (_ptr == IntPtr.Zero)
@@ -379,9 +379,11 @@ namespace Emgu.CV
       /// Similar to the C++ implementation of cv::Capture >> Mat
       /// </summary>
       /// <param name="m">The matrix the image will be read into.</param>
-      public void Read(Mat m)
+      /// <returns>True if the frame can be retrieved</returns>
+      public bool Read(IOutputArray image)
       {
-         CvInvoke.cveVideoCaptureReadToMat(Ptr, m);
+         using (OutputArray oa = image.GetOutputArray())
+            return CvInvoke.cveVideoCaptureRead(Ptr, oa);
       }
 
       #region implement ICapture
@@ -527,7 +529,7 @@ namespace Emgu.CV
       /// <param name="filename">Name of the video file.</param>
       /// <returns>Pointer to the capture structure.</returns>
       [DllImport(ExternLibrary, CallingConvention = CvInvoke.CvCallingConvention)]
-      internal static extern IntPtr cveVideoCaptureCreateFromFile(IntPtr filename);
+      internal static extern IntPtr cveVideoCaptureCreateFromFile(IntPtr filename, int capType);
 
       /// <summary>
       /// The function cvReleaseCapture releases the CvCapture structure allocated by cvCreateFileCapture or cvCreateCameraCapture
@@ -544,7 +546,7 @@ namespace Emgu.CV
       /// <returns>true id a frame is read</returns>
       /// <remarks>The returned image should not be released or modified by user. </remarks>
       [DllImport(ExternLibrary, CallingConvention = CvInvoke.CvCallingConvention)]
-      [return: MarshalAs(CvInvoke.BoolToIntMarshalType)]
+      [return: MarshalAs(UnmanagedType.I1)]
       internal static extern bool cveVideoCaptureRead(IntPtr capture, IntPtr frame);
 
       /// <summary>
