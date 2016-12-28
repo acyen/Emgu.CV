@@ -21,7 +21,15 @@ namespace Emgu.CV.Stitching
       /// <summary>
       /// Pointer to the unmanaged FeaturesFinder object
       /// </summary>
-      protected IntPtr FeaturesFinderPtr;
+      protected IntPtr _featuresFinderPtr;
+
+      /// <summary>
+      /// Get the pointer to the unmanaged FeaturesFinder object
+      /// </summary>
+      public IntPtr FeaturesFinderPtr
+      {
+         get { return _featuresFinderPtr; }
+      }
    }
 
    /*
@@ -121,7 +129,7 @@ namespace Emgu.CV.Stitching
       {
          _ptr = StitchingInvoke.cveOrbFeaturesFinderCreate(
             ref gridSize, nFeature, scaleFactor, nLevels,
-            ref FeaturesFinderPtr);
+            ref _featuresFinderPtr);
       }
 
       /// <summary>
@@ -133,7 +141,10 @@ namespace Emgu.CV.Stitching
       }
    }
 
-   internal static partial class StitchingInvoke
+   /// <summary>
+   /// This class wraps the functional calls to the opencv_stitching module
+   /// </summary>
+   public static partial class StitchingInvoke
    {
       /*
       [DllImport(CvInvoke.ExternLibrary, CallingConvention = CvInvoke.CvCallingConvention)]

@@ -986,6 +986,57 @@ IF(HAVE_opencv_videoio)
 ENDIF()
 ############################### videoio code gen END ################################
 
+############################### stitching code gen START ##############################
+IF(HAVE_opencv_stitching)
+   CREATE_OCV_CLASS_PROPERTY( 
+    "stitching/stitching_property" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/../Emgu.CV.Stitching/StitcherGenerated.cs"
+    "cv::Stitcher" 
+    "Stitcher" 
+    "workScale" 
+    "double" 
+    "val"
+    "WorkScale" 
+    "double"
+    "The work scale"
+    "Emgu.CV.Stitching"
+    "StitchingInvoke"
+    "Stitcher"
+    "#include \"stitching_c.h\"")
+  
+ENDIF()
+############################### stitching code gen END ################################
+
+############################### shape code gen START ##############################
+IF(HAVE_opencv_shape)
+   CREATE_OCV_CLASS_PROPERTY( 
+    "shape/ShapeContextDistanceExtractor_property" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/../Emgu.CV.Shape/ShapeContextDistanceExtractorGenerated.cs"
+    "cv::ShapeContextDistanceExtractor" 
+    "ShapeContextDistanceExtractor" 
+    "Iterations;AngularBins;RadialBins;InnerRadius;OuterRadius;RotationInvariant;ShapeContextWeight;ImageAppearanceWeight;BendingEnergyWeight;StdDev" 
+    "int;int;int;float;float;bool;float;float;float;float" 
+    "prop;prop;prop;prop;prop;prop;prop;prop;prop;prop"
+    "Iterations;AngularBins;RadialBins;InnerRadius;OuterRadius;RotationInvariant;ShapeContextWeight;ImageAppearanceWeight;BendingEnergyWeight;StdDev" 
+    "int;int;int;float;float;bool;float;float;float;float"
+    "The number of iterations;
+    The number of angular bins in the shape context descriptor.;
+    The number of radial bins in the shape context descriptor.;
+    The value of the inner radius.;
+    The value of the outer radius.;
+    Rotation Invariant;
+    The weight of the shape context distance in the final distance value.;
+    The weight of the appearance cost in the final distance value.;
+    The weight of the Bending Energy in the final distance value.;
+    Standard Deviation."
+    "Emgu.CV.Shape"
+    "ShapeInvoke"
+    "ShapeContextDistanceExtractor"
+    "#include \"shape_c.h\"")
+  
+ENDIF()
+############################### shape code gen END ################################
+
 ############################### cudaimgproc code gen START ##############################
 IF(HAVE_opencv_cudaimgproc)
   CREATE_OCV_CLASS_PROPERTY( 
@@ -1107,10 +1158,6 @@ file(GLOB extern_hdrs "${PROJECT_SOURCE_DIR}/*.h*")
 source_group("Src_extern" FILES ${extern_srcs})
 source_group("Include_extern" FILES ${extern_hdrs})
 
-#IF(IOS)
-#  LIST(APPEND extern_srcs "ios/divmodsi4.c")
-#ENDIF()
-
 FOREACH(CVEXTERN_OPTIONAL_DEP ${OPENCV_MODULE_NAMES})
   #MESSAGE("Retriveing source folder for project :  opencv_${CVEXTERN_OPTIONAL_DEP}")
   #GET_TARGET_PROPERTY(OPENCV_MODULE_SOURCE_DIR opencv_${CVEXTERN_OPTIONAL_DEP} PROJECT_SOURCE_DIR)
@@ -1132,6 +1179,8 @@ FOREACH(CVEXTERN_OPTIONAL_DEP ${OPENCV_MODULE_NAMES})
     LIST(APPEND extern_hdrs ${${CVEXTERN_OPTIONAL_DEP}_extern_hdrs})
   ENDIF()
 ENDFOREACH()
+
+
 
 IF(WIN32 AND CV_ICC)
   STRING(REGEX REPLACE "/Qipo" "" CMAKE_C_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
@@ -1195,9 +1244,9 @@ ENDIF()
 ############################### INTEL ICL START ##############################
 IF(WIN32 AND CV_ICC)
   IF(TARGET_ARCH_64)
-    SET(INTEL_ICC_REDIST_PATH "$ENV{ICPP_COMPILER16}redist/intel64_win/compiler/")
+    SET(INTEL_ICC_REDIST_PATH "$ENV{ICPP_COMPILER17}redist/intel64_win/compiler/")
   ELSE()
-    SET(INTEL_ICC_REDIST_PATH "$ENV{ICPP_COMPILER16}redist/ia32_win/compiler/")
+    SET(INTEL_ICC_REDIST_PATH "$ENV{ICPP_COMPILER17}redist/ia32_win/compiler/")
   ENDIF()
   STRING(REGEX REPLACE "\\\\" "/" INTEL_ICC_REDIST_PATH ${INTEL_ICC_REDIST_PATH})
   #LIST(APPEND CVEXTERN_DEPENDENCY_DLL_NAMES libomp5md libmmd svml_dispmd)
@@ -1471,6 +1520,10 @@ set_target_properties(${the_target} PROPERTIES
   LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin${UNMANAGED_LIBRARY_OUTPUT_SUBFOLDER}"
   DEFINE_SYMBOL "CVAPI_EXPORTS"
   )
+
+#if (NOT (WIN32 OR ANDROID OR IOS))
+#  set_target_properties(${the_target} PROPERTIES LINK_FLAGS "-fPIC")
+#endif()  
 
 if(ENABLE_SOLUTION_FOLDERS)
   set_target_properties(${the_target} PROPERTIES FOLDER "emgu")

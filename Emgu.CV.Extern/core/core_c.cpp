@@ -922,3 +922,40 @@ void cveGetRangeAll(cv::Range* range)
 {
    *range = cv::Range::all();
 }
+
+cv::Affine3d* cveAffine3dCreate()
+{
+   return new cv::Affine3d();
+}
+cv::Affine3d* cveAffine3dGetIdentity()
+{
+   cv::Affine3d i = cv::Affine3d::Identity();
+   cv::Affine3d* result = new cv::Affine3d();
+   *result = i;
+   return result;
+}
+cv::Affine3d* cveAffine3dRotate(cv::Affine3d* affine, double r0, double r1, double r2)
+{
+   cv::Affine3d::Vec3 r(r0, r1, r2);
+   cv::Affine3d rotated = affine->rotate(r);
+   cv::Affine3d* result = new cv::Affine3d();
+   *result = rotated;
+   return result;
+}
+cv::Affine3d* cveAffine3dTranslate(cv::Affine3d* affine, double t0, double t1, double t2)
+{
+   cv::Affine3d::Vec3 t(t0, t1, t2);
+   cv::Affine3d rotated = affine->translate(t);
+   cv::Affine3d* result = new cv::Affine3d();
+   *result = rotated;
+   return result;
+}
+void cveAffine3dGetValues(cv::Affine3d* affine, double* values)
+{
+   memcpy(values, affine->matrix.val, 16 * sizeof(double));
+}
+void cveAffine3dRelease(cv::Affine3d** affine)
+{
+   delete* affine;
+   *affine = 0;
+}

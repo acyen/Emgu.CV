@@ -1,4 +1,19 @@
-## Getting Started with Emgu CV V3.0
+## Getting Started with Emgu CV V3.1
+
+### The demo version only supports the following platforms: 
+* Android (x86) 
+* iOS (x86 simulator , x64 simulator)
+
+If you are using the demo version, please make sure your app is targeting only the above platforms, or there will be compilation error.
+
+### The full version support the following platforms:
+* Android (armeabi, armeabi-v7a, arm64-v8a, x86, x64)
+* iOS (x86 simulator , x64 simulator, armeabi-v7, armeabi-v7s, arm64)
+
+If you are using the full version, you can target any platform of your choice.
+
+### To run the demo program, 
+
 ### Convert Native Image Object to and from Emgu CV Mat
 #### Android
 ```csharp
