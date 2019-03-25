@@ -14,7 +14,7 @@ cv::UMat* cveUMatCreate(cv::UMatUsageFlags usage)
 void cveUMatUseCustomAllocator(cv::UMat* mat, MatAllocateCallback allocator, MatDeallocateCallback deallocator, void* allocateDataActionPtr, void* freeDataActionPtr, cv::MatAllocator** matAllocator, cv::MatAllocator** oclAllocator)
 {
    *matAllocator = emguMatAllocatorCreate(allocator, deallocator, allocateDataActionPtr, freeDataActionPtr);
-   *oclAllocator = mat->getStdAllocator(*matAllocator);
+   *oclAllocator = cv::Mat::getStdAllocator();
    
    if (*oclAllocator == *matAllocator)
    {

@@ -26,8 +26,9 @@ IF( NOT (NETFX_CORE OR ANDROID OR IOS ) )
   SET(BUILD_SHARED_LIBS OFF)
   SET(CMAKE_EXPORT_NO_PACKAGE_REGISTRY ON)
   
-  ADD_SUBDIRECTORY(vtk) # always build vtk as static library
- 
+  IF (HAVE_VTK)
+    ADD_SUBDIRECTORY(vtk) # always build vtk as static library
+  ENDIF() 
  
   SET(BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS_CACHE})
   ENDIF()

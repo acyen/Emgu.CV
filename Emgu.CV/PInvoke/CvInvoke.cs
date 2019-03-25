@@ -394,7 +394,8 @@ namespace Emgu.CV
          }
 #elif __IOS__ || UNITY_IPHONE || NETFX_CORE
 #else
-         if (Emgu.Util.Platform.OperationSystem != Emgu.Util.TypeEnum.OS.MacOSX)
+#if NEVER
+            if (Emgu.Util.Platform.OperationSystem != Emgu.Util.TypeEnum.OS.MacOSX)
          {
             String formatString = GetModuleFormatString();
             for (int i = 0; i < modules.Length; ++i)
@@ -403,7 +404,8 @@ namespace Emgu.CV
             libraryLoaded &= LoadUnmanagedModules(null, modules);
          }
 #endif
-         return libraryLoaded;
+#endif
+            return libraryLoaded;
       }
 
       /// <summary>
@@ -417,6 +419,7 @@ namespace Emgu.CV
          _libraryLoaded = DefaultLoadUnmanagedModules(modules.ToArray());
 
 #if !UNITY_IPHONE
+         if (!_libraryLoaded)
          //Use the custom error handler
          RedirectError(CvErrorHandlerThrowException, IntPtr.Zero, IntPtr.Zero);
 #endif

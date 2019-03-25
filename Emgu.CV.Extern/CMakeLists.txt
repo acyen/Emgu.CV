@@ -76,7 +76,7 @@ IF(HAVE_opencv_line_descriptor)
 ENDIF()
 
 IF(HAVE_opencv_videoio)
-  CREATE_VECTOR_CS("ColorPoint" "ColorPoint" "ColorPoint" "struct" ${CMAKE_CURRENT_SOURCE_DIR}/../Emgu.CV/Util Emgu.CV.Util "#include \"videoio_c_extra.h\"")
+  CREATE_VECTOR_CS("ColorPoint" "ColorPoint" "ColorPoint" "struct" ${CMAKE_CURRENT_SOURCE_DIR}/../Emgu.CV/Util Emgu.CV.Util "#include \"videoio/videoio_c_extra.h\"")
 ENDIF()
 
 IF(EMGU_CV_WITH_TESSERACT)
@@ -1620,7 +1620,7 @@ IF(EMGU_CV_WITH_TESSERACT)
     ADD_DEPENDENCIES(${TESSERACT_PROJECTS})
   ENDIF()
 ENDIF()
-
+message("OPENCV_MODULE_NAMES: ${OPENCV_MODULE_NAMES}")
 FOREACH(CVEXTERN_OPTIONAL_DEP ${OPENCV_MODULE_NAMES})
   #  INCLUDE_DIRECTORIES("${OPENCV_MODULES_DIR}/${CVEXTERN_OPTIONAL_DEP}/include")
   #  MESSAGE("Included:  ${OPENCV_MODULES_DIR}/${CVEXTERN_OPTIONAL_DEP}/include")
